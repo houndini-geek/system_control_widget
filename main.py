@@ -1,4 +1,5 @@
 from tkinter import Tk, Button, Canvas, Frame, Scrollbar, messagebox, Menu
+from plyer import notification
 
 import os
 import platform
@@ -250,31 +251,44 @@ ul li span {
 
 
 
+# Show Notification
+def notification_handler(mssg):
+    notification.notify(
+        title='Notification',
+        message=f'{mssg}',
+        app_name='System Control Widget'
+    )
 
 # Define button functions
 def shutdown():
-    messagebox.showinfo("Notification", "Shutting down your system... Goodbye! 👋")
-    os.system("shutdown /s /t 0")
+    #messagebox.showinfo("Notification", "Shutting down your system... Goodbye! 👋")
+    notification_handler(mssg='Shutting down your system... Goodbye! 👋')
+    os.system("shutdown /s /t 3")
 
 
 def restart():
-    messagebox.showinfo("Notification", "Restarting your system... Hang tight! 🔄")
-    os.system("shutdown /r /t 0")
+    #messagebox.showinfo("Notification", "Restarting your system... Hang tight! 🔄")
+    notification_handler(mssg='Restarting your system... Hang tight! 🔄')
+    os.system("shutdown /r /t 3")
 
 def logout():
-    messagebox.showinfo("Notification", "Logging you out... See you soon! ✌️")
+    #messagebox.showinfo("Notification", "Logging you out... See you soon! ✌️")
+    notification_handler(mssg='Logging you out... See you soon! ✌️')
     os.system("shutdown -l")
 
 def lock_screen():
-     messagebox.showinfo("Notification", "Locking your screen...")
+     #messagebox.showinfo("Notification", "Locking your screen...")
+     notification_handler(mssg='Locking your screen...')
      ctypes.windll.user32.LockWorkStation()
 
 def hibernate():
-    messagebox.showinfo("Notification", "Hibernating... Zzz! 😴")
+    #messagebox.showinfo("Notification", "Hibernating... Zzz! 😴")
+    notification_handler(mssg="Hibernating... Zzz! 😴")
     os.system("shutdown /h")
 
 def sleep():
-    messagebox.showinfo("Notification", "Putting your system to sleep... 💤")
+    #messagebox.showinfo("Notification", "Putting your system to sleep... 💤")
+    notification_handler(mssg="Putting your system to sleep... 💤")
     os.system("rundll32.exe powrprof.dll,SetSuspendState 0,1,0")
 
 def recovery_mode():
@@ -283,13 +297,15 @@ def recovery_mode():
         "You're about to restart into recovery mode 🔧.\n\nDo you want to continue?"
     )
     if answer:
-        messagebox.showinfo(
-            "Notification", 
-            "Restarting to recovery mode... 🔄\nGet ready to troubleshoot! 💪"
-        )
+        # messagebox.showinfo(
+        #     "Notification", 
+        #     "Restarting to recovery mode... 🔄\nGet ready to troubleshoot! 💪"
+        # )
+        notification_handler(mssg="Restarting to recovery mode... 🔄\nGet ready to troubleshoot! 💪")
         os.system("shutdown /r /o /t 0")
     else:
-        messagebox.showinfo("Notification", "Action canceled! No worries. 😊")
+        #messagebox.showinfo("Notification", "Action canceled! No worries. 😊")
+        notification_handler(mssg="Action canceled! No worries. 😊")
 
 
 def disable_wifi():
@@ -297,7 +313,8 @@ def disable_wifi():
         # Fetch the name of the Wi-Fi adapter
         wifi_name = os.popen('netsh wlan show interfaces | findstr "Name"').read().strip().split(":")[-1].strip()
         if wifi_name:
-            messagebox.showinfo("Notification", f"Disabling WiFi ({wifi_name})... 🔒")
+            #messagebox.showinfo("Notification", f"Disabling WiFi ({wifi_name})... 🔒")
+            notification_handler(mssg= f"Disabling WiFi ({wifi_name})... 🔒")
             os.system(f'netsh interface set interface name="{wifi_name}" admin=disable')
         else:
             messagebox.showerror("Error", "No WiFi adapter found! 😕")
@@ -322,27 +339,33 @@ def disable_wifi():
 #         messagebox.showerror("Error", f"Failed to enable Wi-Fi: {e}")
 
 def flush_dns():
-    messagebox.showinfo("Notification", "Flushing DNS... 🔄")
+    #messagebox.showinfo("Notification", "Flushing DNS... 🔄")
+    notification_handler(mssg="Flushing DNS... 🔄")
     os.system("ipconfig /flushdns")
 
 def tsk_mngr():
-    messagebox.showinfo("Notification", "Opening Task Manager... ⚙️")
+    #messagebox.showinfo("Notification", "Opening Task Manager... ⚙️")
+    notification_handler(mssg="Opening Task Manager... ⚙️")
     os.system("taskmgr")
 
 def device_mngr():
-    messagebox.showinfo("Notification", "Opening Device Manager... 🔧")
+    #messagebox.showinfo("Notification", "Opening Device Manager... 🔧")
+    notification_handler(mssg="Opening Device Manager... 🔧")
     os.system("devmgmt.msc")
 
 def disk_cleanup():
-    messagebox.showinfo("Notification", "Opening Disk Cleanup... 🧹")
+    #messagebox.showinfo("Notification", "Opening Disk Cleanup... 🧹")
+    notification_handler(mssg="Opening Disk Cleanup... 🧹")
     os.system("cleanmgr")
 
 def clear_temp_files():
-    messagebox.showinfo("Notification", "Clearing Temp Files... 🗑️")
+    #messagebox.showinfo("Notification", "Clearing Temp Files... 🗑️")
+    notification_handler(mssg="Clearing Temp Files... 🗑️")
     os.system("del /q /f /s %TEMP%\\*")
 
 def open_disk_mgmt():
-    messagebox.showinfo("Notification", "Openning Disk management...")
+    #messagebox.showinfo("Notification", "Openning Disk management...")
+    notification_handler(mssg="Openning Disk management...")
     os.system("diskmgmt")
 
 # Create the main window
