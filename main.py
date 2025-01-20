@@ -267,7 +267,7 @@ def logout():
 
 def lock_screen():
      messagebox.showinfo("Notification", "Locking your screen...")
-     os.system("rundll32.exe user32.dll, LockWorkstation")
+     ctypes.windll.user32.LockWorkStation()
 
 def hibernate():
     messagebox.showinfo("Notification", "Hibernating... Zzz! 😴")
