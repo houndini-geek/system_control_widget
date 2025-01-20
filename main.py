@@ -4,7 +4,7 @@ from plyer import notification
 import os
 import platform
 import webbrowser
-import re
+from time import sleep
 import psutil
 import socket
 from datetime import datetime, timedelta
@@ -274,6 +274,7 @@ def restart():
 def logout():
     #messagebox.showinfo("Notification", "Logging you out... See you soon! ✌️")
     notification_handler(mssg='Logging you out... See you soon! ✌️')
+    sleep(3)
     os.system("shutdown -l")
 
 def lock_screen():
@@ -284,11 +285,13 @@ def lock_screen():
 def hibernate():
     #messagebox.showinfo("Notification", "Hibernating... Zzz! 😴")
     notification_handler(mssg="Hibernating... Zzz! 😴")
+    sleep(3)
     os.system("shutdown /h")
 
 def sleep():
     #messagebox.showinfo("Notification", "Putting your system to sleep... 💤")
     notification_handler(mssg="Putting your system to sleep... 💤")
+    sleep(3)
     os.system("rundll32.exe powrprof.dll,SetSuspendState 0,1,0")
 
 def recovery_mode():
@@ -302,7 +305,7 @@ def recovery_mode():
         #     "Restarting to recovery mode... 🔄\nGet ready to troubleshoot! 💪"
         # )
         notification_handler(mssg="Restarting to recovery mode... 🔄\nGet ready to troubleshoot! 💪")
-        os.system("shutdown /r /o /t 0")
+        os.system("shutdown /r /o /t 3")
     else:
         #messagebox.showinfo("Notification", "Action canceled! No worries. 😊")
         notification_handler(mssg="Action canceled! No worries. 😊")
