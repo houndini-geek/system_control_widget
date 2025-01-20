@@ -265,6 +265,10 @@ def logout():
     messagebox.showinfo("Notification", "Logging you out... See you soon! ✌️")
     os.system("shutdown -l")
 
+def lock_screen():
+     messagebox.showinfo("Notification", "Locking your screen...")
+     os.system("rundll32.exe user32.dll, LockWorkstation")
+
 def hibernate():
     messagebox.showinfo("Notification", "Hibernating... Zzz! 😴")
     os.system("shutdown /h")
@@ -301,21 +305,21 @@ def disable_wifi():
         messagebox.showerror("Error", f"Failed to disable WiFi: {e}")
 
 
-def enable_wifi():
-    try:
-        # Fetch all network adapter names
-        adapters_output = os.popen('netsh wlan show interfaces').read()
-        matches = re.findall(r"Name\s*:\s*(.+)", adapters_output)
+# def enable_wifi():
+#     try:
+#         # Fetch all network adapter names
+#         adapters_output = os.popen('netsh wlan show interfaces').read()
+#         matches = re.findall(r"Name\s*:\s*(.+)", adapters_output)
         
-        if matches:
-            # Assuming the first adapter is the Wi-Fi card
-            wifi_name = matches[0].strip()
-            messagebox.showinfo("Notification", f"Enabling WiFi... ({wifi_name}) 📶")
-            os.system(f'netsh interface set interface name="{wifi_name}" admin=enable')
-        else:
-            messagebox.showerror("Error", "No Wi-Fi adapter found! 😕")
-    except Exception as e:
-        messagebox.showerror("Error", f"Failed to enable Wi-Fi: {e}")
+#         if matches:
+#             # Assuming the first adapter is the Wi-Fi card
+#             wifi_name = matches[0].strip()
+#             messagebox.showinfo("Notification", f"Enabling WiFi... ({wifi_name}) 📶")
+#             os.system(f'netsh interface set interface name="{wifi_name}" admin=enable')
+#         else:
+#             messagebox.showerror("Error", "No Wi-Fi adapter found! 😕")
+#     except Exception as e:
+#         messagebox.showerror("Error", f"Failed to enable Wi-Fi: {e}")
 
 def flush_dns():
     messagebox.showinfo("Notification", "Flushing DNS... 🔄")
@@ -348,17 +352,6 @@ window.config(padx=4,pady=4)
 window.geometry('430x200')  # Slightly increased for better UI
 
 
-# Setup Menu
-menu_bar = Menu(window, font=("Helvetica", 10))
-system_menu = Menu(menu_bar, tearoff=0 ,font=("Helvetica", 10))
-system_menu.add_command(label="View system info",command=show_system_info)
-system_menu.add_command(label="Set timeout for system shutdown (default 0s)")
-system_menu.add_command(label="Set timeout for system restart (default 0s)")
-system_menu.add_separator()
-system_menu.add_command(label='Exit', command=lambda:exit())
-
-menu_bar.add_cascade(label="System", menu=system_menu)
-
 # Create a canvas for scrolling
 canvas = Canvas(window, bg="#E6E6E6")
 canvas.pack(side="left", fill="both", expand=True)
@@ -380,11 +373,13 @@ buttons = [
     ("Shutdown 🔻", shutdown),
     ("Restart 🔄", restart),
     ("Log Out ✌️", logout),
+    ("Lock screen 🔐", lock_screen),
     ("Hibernate 😴", hibernate),
     ("Sleep 💤", sleep),
     ("Recovery Mode 🔧", recovery_mode),
+    ("View system info 🖨️", show_system_info),
     ("Disable WiFi 📴", disable_wifi),
-    ("Enable WiFi 📶", enable_wifi),
+    #("Enable WiFi 📶", enable_wifi),
     ("Flush DNS 🔄", flush_dns),
     ("Task Manager ⚙️", tsk_mngr),
     ("Device Manager 🔧", device_mngr),
@@ -411,8 +406,6 @@ for idx, (text, command) in enumerate(buttons):
     Button(frame, text=text, command=command, **button_style).grid(row=idx, column=0, pady=8, padx=10)
 
 
-
-window.config(menu=menu_bar)
 # Prevent resizing
 window.resizable(False, False)
 window.mainloop()
